@@ -353,6 +353,7 @@ index products :
 ```
 
 index order :
+```json
 {
     "settings": {
         "analysis":{
@@ -420,3 +421,4 @@ index order :
         }
     }
 }
+```
