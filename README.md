@@ -283,6 +283,140 @@ Rajouter dans la requête, pour configurer les options d'analyse appropriées po
 index products :
 ```json
 {
-
+    "settings": {
+        "analysis":{
+            "analyzer":{
+                "product_name":
+                {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter":[
+                        "lowercase",
+                        "asciifolding",
+                        "trim",
+                        "word_delimiter_graph"
+                    ]
+                },
+                "my_custom_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "char_filter": [
+                        "html_strip"
+                    ],
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "trim"
+                    ]
+                },
+                "french_content": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "french_stop",
+                        "french_stemmer"
+                    ]
+                }
+            },
+            "filter": {
+                "french_stop": {
+                    "type": "stop",
+                    "stopwords": "_french_"
+                },
+                "french_stemmer": {
+                    "type": "stemmer",
+                    "language": "light_french"
+                }
+            }
+        }
+    },
+    "mappings":{
+        "dynamic":false,
+        "properties": {
+            "product_name": {"type" : "text"},
+            "supplier":{
+                "properties":{
+                    "company_name" : {"type" : "text"},
+                    "country": {"type" : "text"}
+                }
+            },
+            "category":{
+                "properties":{
+                    "category_name": {"type": "text"}
+                }
+            },
+            "unit_prices": {"type": "double"}
+        }
+    }
 }
 ```
+
+index order :
+{
+    "settings": {
+        "analysis":{
+            "analyzer":{
+                "my_custom_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "char_filter": [
+                        "html_strip"
+                    ],
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "trim"
+                    ]
+                },
+                "french_content": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "french_stop",
+                        "french_stemmer"
+                    ]
+                }
+            },
+            "filter": {
+                "french_stop": {
+                    "type": "stop",
+                    "stopwords": "_french_"
+                },
+                "french_stemmer": {
+                    "type": "stemmer",
+                    "language": "light_french"
+                }
+            }
+        }
+    },
+    "mappings":{
+        "dynamic":false,
+        "properties": {
+            "order_date": {"type": "date"},
+            "customer":{
+                "properties":{
+                    "company_name": {"type": "text"},
+                    "contact_name":{"type": "text"},
+                    "country": {"type" : "text"}
+                }
+            },
+            "order_id": {"type": "text"},
+            "shipped_date": {"type": "date", "format": "yyyy-MM-dd"},
+            "ship_city":{"type": "text"},
+            "ship_address": {"type": "text"},
+            "ship_region": {"type": "text"},
+            "ship_country": {"type": "text"},
+            "order_details":{
+                "type": "object",
+                "properties":{
+                    "product_name": {"type": "text"},
+                    "unit_price":{"type": "double"},
+                    "quantity": {"type": "text"},
+                    "discount": {"type": "double"}
+                }
+            }
+        }
+    }
+}
