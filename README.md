@@ -412,3 +412,12 @@ inner join order_details od on od.order_id = o.order_id
 ```
 
 2. Créer un script Node.js de transformation et d'indexation
+
+## Discover de Kibana
+
+Discover est une partie ou une fonctionnalité de Kibana. Il est décrit comme la partie "exploration de données (Discover)" dans Kibana, offrant un aperçu des documents stockés dans votre cluster Elasticsearch.
+Son objectif principal est de vous permettre d'explorer les données présentes dans votre cluster Elasticsearch. Cela se fait au moyen d'une "data view". Il est important de noter que, dans les versions antérieures à la version 8, les "Data views" étaient appelées "Index patterns".
+Discover permet notamment de :
+
+- Explorer les données de votre Elasticsearch.
+- Obtenir un aperçu des documents.
